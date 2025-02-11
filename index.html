@@ -13,11 +13,16 @@
         <input type="text" id="studentCode" maxlength="5" placeholder="e.g., 12345">
         <button onclick="showTimetable()">View Timetable</button>
     </div>
-    <div id="teacherSection">
-        <h2>Teacher View</h2>
-        <button onclick="showAllTimetables()">View All Students' Timetables</button>
-    </div>
-    <div id="timetable"></div>
+   <div id="teacherSection">
+    <h2>Teacher Login</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username">
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="loginTeacher()">Login</button>
+</div>
+<div id="timetable"></div>
     <script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 </body>
 </html>

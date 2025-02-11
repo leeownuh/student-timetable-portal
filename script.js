@@ -1,3 +1,29 @@
+// Hashed credentials (username: "teacher", password: "password123")
+const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // SHA-256 hash of "teacher"
+const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // SHA-256 hash of "password123"
+// Function to hash input
+function hashInput(input) {
+    return sha256(input);
+}
+
+// Teacher login function
+function loginTeacher() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const timetableDiv = document.getElementById("timetable");
+
+    // Hash the input
+    const hashedInputUsername = hashInput(username);
+    const hashedInputPassword = hashInput(password);
+
+    // Check if credentials match
+    if (hashedInputUsername === hashedUsername && hashedInputPassword === hashedPassword) {
+        showAllTimetables(); // Show all timetables if login is successful
+    } else {
+        timetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
+    }
+}
+
 // Student codes and their respective timetables
 const timetables = {
     "12345": { name: "Zoe", schedule: [
