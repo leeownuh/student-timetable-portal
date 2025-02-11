@@ -87,23 +87,25 @@ function showAllTimetables() {
     
     for (const code in timetables) {
         timetables[code].schedule.forEach(([day, time, subject]) => {
-            if (!scheduleMap[day]) {
-                scheduleMap[day] = {};
+            if (!scheduleMap[time]) {
+                scheduleMap[time] = {};
             }
-            if (!scheduleMap[day][time]) {
-                scheduleMap[day][time] = [];
+            if (!scheduleMap[time][day]) {
+                scheduleMap[time][day] = [];
             }
-            scheduleMap[day][time].push(subject);
+            scheduleMap[time][day].push(`${subject} (${timetables[code].name})`);
         });
     }
     
     let html = "<h2>Teacher's Timetable</h2>";
-    html += `<table><tr><th>Day</th><th>Time</th><th>Subjects</th></tr>`;
+    html += `<table><tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>`;
     
-    Object.keys(scheduleMap).forEach(day => {
-        Object.keys(scheduleMap[day]).sort().forEach(time => {
-            html += `<tr><td>${day}</td><td>${time}</td><td>${scheduleMap[day][time].join(", ")}</td></tr>`;
+    Object.keys(scheduleMap).sort().forEach(time => {
+        html += `<tr><td>${time}</td>`;
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].forEach(day => {
+            html += `<td>${scheduleMap[time][day] ? scheduleMap[time][day].join("<br>") : ""}</td>`;
         });
+        html += "</tr>";
     });
     
     html += "</table>";
