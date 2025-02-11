@@ -95,3 +95,19 @@ function showTimetable() {
     html += "</table>";
     timetableDiv.innerHTML = html;
 }
+
+function showAllTimetables() {
+    const timetableDiv = document.getElementById("timetable");
+
+    let html = "<h2>All Students' Timetables</h2>";
+    for (const code in timetables) {
+        const studentData = timetables[code];
+        html += `<h3>${studentData.name}'s Timetable</h3>`;
+        html += `<table><tr><th>Day</th><th>Time</th><th>Subject</th></tr>`;
+        studentData.schedule.forEach(entry => {
+            html += `<tr><td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td></tr>`;
+        });
+        html += "</table>";
+    }
+    timetableDiv.innerHTML = html;
+}
