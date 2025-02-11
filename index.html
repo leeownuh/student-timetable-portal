@@ -7,22 +7,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Student Timetable Portal</h1>
-    <div id="studentSection">
-        <label for="studentCode">Enter Your 5-Digit Code:</label>
-        <input type="text" id="studentCode" maxlength="5" placeholder="e.g., 12345">
-        <button onclick="showTimetable()">View Timetable</button>
+    <div class="dashboard">
+        <!-- Student Section -->
+        <div class="student-section">
+            <h1>Student Timetable</h1>
+            <label for="studentCode">Enter Your 5-Digit Code:</label>
+            <input type="text" id="studentCode" maxlength="5" placeholder="e.g., 12345">
+            <button onclick="showTimetable()">View Timetable</button>
+            <div id="studentTimetable"></div>
+        </div>
+
+        <!-- Teacher Section -->
+        <div class="teacher-section">
+            <h1>Teacher Timetable</h1>
+            <div class="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <button onclick="loginTeacher()">Login</button>
+            </div>
+            <div id="teacherTimetable"></div>
+        </div>
     </div>
-   <div id="teacherSection">
-    <h2>Teacher Login</h2>
-    <label for="username">Username:</label>
-    <input type="text" id="username" placeholder="Enter username">
-    <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Enter password">
-    <button onclick="loginTeacher()">Login</button>
-</div>
-<div id="timetable"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
     <script src="script.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 </body>
 </html>
