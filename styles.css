@@ -4,7 +4,7 @@ body {
     margin: 50px;
 }
 
-select, button {
+input, button {
     padding: 10px;
     margin: 10px;
 }
@@ -24,3 +24,4 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+
