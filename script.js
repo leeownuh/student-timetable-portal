@@ -83,15 +83,29 @@ function showTimetable() {
 
 function showAllTimetables() {
     const timetableDiv = document.getElementById("timetable");
-    let html = "<h2>All Students' Timetables</h2>";
+    let scheduleMap = {};
+    
     for (const code in timetables) {
-        const studentData = timetables[code];
-        html += `<h3>${studentData.name}'s Timetable</h3>`;
-        html += `<table><tr><th>Day</th><th>Time</th><th>Subject</th></tr>`;
-        studentData.schedule.forEach(entry => {
-            html += `<tr><td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td></tr>`;
+        timetables[code].schedule.forEach(([day, time, subject]) => {
+            if (!scheduleMap[day]) {
+                scheduleMap[day] = {};
+            }
+            if (!scheduleMap[day][time]) {
+                scheduleMap[day][time] = [];
+            }
+            scheduleMap[day][time].push(subject);
         });
-        html += "</table>";
     }
+    
+    let html = "<h2>Teacher's Timetable</h2>";
+    html += `<table><tr><th>Day</th><th>Time</th><th>Subjects</th></tr>`;
+    
+    Object.keys(scheduleMap).forEach(day => {
+        Object.keys(scheduleMap[day]).sort().forEach(time => {
+            html += `<tr><td>${day}</td><td>${time}</td><td>${scheduleMap[day][time].join(", ")}</td></tr>`;
+        });
+    });
+    
+    html += "</table>";
     timetableDiv.innerHTML = html;
 }
