@@ -70,20 +70,28 @@ const timetables = {
 };
 
 function showTimetable() {
-    const code = document.getElementById("studentCode").value;
-    const studentData = timetables[code];
+    const code = document.getElementById("studentCode").value.trim();
+    const timetableDiv = document.getElementById("timetable");
 
-    if (!studentData) {
-        document.getElementById("timetable").innerHTML = "<p style='color:red;'>Invalid code! Please try again.</p>";
+    // Input validation
+    if (!code || code.length !== 5 || isNaN(code)) {
+        timetableDiv.innerHTML = "<p class='error'>Please enter a valid 5-digit code.</p>";
         return;
     }
 
+    const studentData = timetables[code];
+
+    if (!studentData) {
+        timetableDiv.innerHTML = "<p class='error'>Invalid code! Please try again.</p>";
+        return;
+    }
+
+    // Display timetable
     let html = `<h2>Timetable for ${studentData.name}</h2>`;
     html += `<table><tr><th>Day</th><th>Time</th><th>Subject</th></tr>`;
     studentData.schedule.forEach(entry => {
         html += `<tr><td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td></tr>`;
     });
     html += "</table>";
-    document.getElementById("timetable").innerHTML = html;
+    timetableDiv.innerHTML = html;
 }
-

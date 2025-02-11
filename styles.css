@@ -7,6 +7,7 @@ body {
 input, button {
     padding: 10px;
     margin: 10px;
+    font-size: 16px;
 }
 
 table {
@@ -25,3 +26,8 @@ th {
     background-color: #f2f2f2;
 }
 
+/* Added styling for error messages */
+p.error {
+    color: red;
+    font-weight: bold;
+}
