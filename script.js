@@ -60,21 +60,29 @@ function adjustTimeForStudents(time) {
     let [hour, minute, period] = time.match(/(\d+):(\d+) (\wM)/).slice(1);
     hour = parseInt(hour);
     minute = parseInt(minute);
-    
+
     // Convert to 24-hour format
     if (period === "PM" && hour !== 12) hour += 12;
     if (period === "AM" && hour === 12) hour = 0;
 
-    // Add 3 hours 30 minutes
-    minute += 30;
-    hour += 3 + Math.floor(minute / 60);
-    minute %= 60;
-    
+    // Subtract 3 hours 30 minutes
+    minute -= 30;
+    hour -= 3;
+    if (minute < 0) {
+        minute += 60;
+        hour -= 1;
+    }
+
+    // Handle negative hours (wrap around midnight)
+    if (hour < 0) {
+        hour += 24;
+    }
+
     // Convert back to 12-hour format
     period = hour >= 12 ? "PM" : "AM";
     hour = hour % 12 || 12;
     const adjustedTime = `${hour}:${minute.toString().padStart(2, "0")} ${period}`;
-    
+
     return adjustedTime;
 }
 
@@ -103,6 +111,7 @@ function showTimetable() {
     html += "</table>";
     timetableDiv.innerHTML = html;
 }
+
 
 
 function showAllTimetables() {
