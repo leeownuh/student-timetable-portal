@@ -56,6 +56,28 @@ const timetables = {
     ]}
 };
 
+function adjustTimeForStudents(time) {
+    let [hour, minute, period] = time.match(/(\d+):(\d+) (\wM)/).slice(1);
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+    
+    // Convert to 24-hour format
+    if (period === "PM" && hour !== 12) hour += 12;
+    if (period === "AM" && hour === 12) hour = 0;
+
+    // Add 3 hours 30 minutes
+    minute += 30;
+    hour += 3 + Math.floor(minute / 60);
+    minute %= 60;
+    
+    // Convert back to 12-hour format
+    period = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+    const adjustedTime = `${hour}:${minute.toString().padStart(2, "0")} ${period}`;
+    
+    return adjustedTime;
+}
+
 function showTimetable() {
     const code = document.getElementById("studentCode").value.trim();
     const timetableDiv = document.getElementById("timetable");
@@ -75,11 +97,13 @@ function showTimetable() {
     let html = `<h2>Timetable for ${studentData.name}</h2>`;
     html += `<table><tr><th>Day</th><th>Time</th><th>Subject</th></tr>`;
     studentData.schedule.forEach(entry => {
-        html += `<tr><td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td></tr>`;
+        const adjustedTime = adjustTimeForStudents(entry[1]);
+        html += `<tr><td>${entry[0]}</td><td>${adjustedTime}</td><td>${entry[2]}</td></tr>`;
     });
     html += "</table>";
     timetableDiv.innerHTML = html;
 }
+
 
 function showAllTimetables() {
     const timetableDiv = document.getElementById("timetable");
