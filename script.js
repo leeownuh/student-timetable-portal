@@ -1,6 +1,16 @@
-// Hashed credentials (SHA-256)
-const hashedUsername = "1057a9604e04b274da5a4de0c8f4b4868d9b230989f8c8c6a28221143cc5a755";
-const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; 
+let teacherCredentials = {};
+
+async function loadTimetables() {
+    try {
+        const response = await fetch("timetables.json");
+        const data = await response.json();
+        teacherCredentials = data.teacherCredentials; // Store teacher credentials
+        timetables = data; // Store timetables
+        delete timetables.teacherCredentials; // Remove credentials from main timetable object
+    } catch (error) {
+        console.error("Error loading timetables:", error);
+    }
+}
 
 async function hashInput(input) {
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
