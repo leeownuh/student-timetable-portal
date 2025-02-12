@@ -1,6 +1,6 @@
 // Hashed credentials (SHA-256)
-const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // "teacher"
-const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // "password123"
+const hashedUsername = "1057a9604e04b274da5a4de0c8f4b4868d9b230989f8c8c6a28221143cc5a755";
+const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; 
 
 async function hashInput(input) {
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
