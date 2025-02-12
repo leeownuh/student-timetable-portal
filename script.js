@@ -1,4 +1,7 @@
 let teacherCredentials = {};
+let teacherCredentials = {};
+let timetables = {};
+
 async function loadTimetables() {
     try {
         const response = await fetch("timetables.json");
@@ -10,57 +13,52 @@ async function loadTimetables() {
         const data = await response.json();
         console.log("✅ JSON Data Loaded:", data);
 
-        teacherCredentials = data.teacherCredentials; // Store teacher credentials
-        timetables = data; // Store timetables
-        delete timetables.teacherCredentials; // Remove credentials from main timetable object
-
+        // Extract teacher credentials
+        teacherCredentials = data.teacherCredentials;
         console.log("✅ Loaded Teacher Credentials:", teacherCredentials);
+
+        // Remove credentials from main timetable object
+        delete data.teacherCredentials;
+        timetables = data; 
+        console.log("✅ Timetables Loaded:", timetables);
+
     } catch (error) {
         console.error("❌ Error loading timetables:", error);
     }
 }
 
+// Ensure the timetable loads when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     loadTimetables();
 });
 
-async function hashInput(input) {
-    const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
-    return Array.from(new Uint8Array(hashBuffer))
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join("");
-}
-
-// Teacher login function
 async function loginTeacher() {
+    if (!teacherCredentials || !teacherCredentials.username || !teacherCredentials.password) {
+        console.error("❌ Teacher credentials are missing or not loaded.");
+        document.getElementById("teacherTimetable").innerHTML = "<p class='error'>System error: Teacher credentials not found.</p>";
+        return;
+    }
+
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
-    const timetableDiv = document.getElementById("teacherTimetable");
 
     // Hash the input
     const hashedInputUsername = await hashInput(username);
     const hashedInputPassword = await hashInput(password);
 
-    // Debugging: Log hashed values
-    console.log("Hashed Username:", hashedInputUsername);
-    console.log("Hashed Password:", hashedInputPassword);
+    console.log("🔹 Hashed Username:", hashedInputUsername);
+    console.log("🔹 Hashed Password:", hashedInputPassword);
+    console.log("🔹 Stored Teacher Username:", teacherCredentials.username);
+    console.log("🔹 Stored Teacher Password:", teacherCredentials.password);
 
-// Ensure teacherCredentials is loaded
-    if (!teacherCredentials || !teacherCredentials.username || !teacherCredentials.password) {
-        console.error("Teacher credentials are missing.");
-        timetableDiv.innerHTML = "<p class='error'>System error: Teacher credentials not found.</p>";
-        return;
-    }
-
-    // Check if credentials match
+    // Check credentials
     if (hashedInputUsername === teacherCredentials.username && hashedInputPassword === teacherCredentials.password) {
-console.log("✅ Teacher login successful!");
-        showAllTimetables(); // Show all timetables if login is successful
+        console.log("✅ Teacher login successful!");
+        showAllTimetables();
     } else {
-        timetableDiv.innerHTML = "<p class='error'>❌ Invalid login attempt.</p>";
+        document.getElementById("teacherTimetable").innerHTML = "<p class='error'>❌ Invalid login attempt.</p>";
     }
 }
-let timetables = {};
 
 // Load timetables from timetables.json
 async function loadTimetables() {
