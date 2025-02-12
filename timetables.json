@@ -1,5 +1,5 @@
 {
-  "12345": "Zoe", schedule: [
+  "12345":{name: "Zoe", schedule: [
         ["Monday", "3:15 PM", "Maths"],
         ["Monday", "4:00 PM", "Physics"],
         ["Tuesday", "4:30 PM", "Maths"],
