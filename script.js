@@ -1,21 +1,28 @@
 let teacherCredentials = {};
-document.addEventListener("DOMContentLoaded", () => {
-    loadTimetables();
-});
-
 async function loadTimetables() {
     try {
         const response = await fetch("timetables.json");
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log("✅ JSON Data Loaded:", data);
+
         teacherCredentials = data.teacherCredentials; // Store teacher credentials
         timetables = data; // Store timetables
         delete timetables.teacherCredentials; // Remove credentials from main timetable object
-    
-console.log("✅ Loaded Teacher Credentials:", teacherCredentials);
+
+        console.log("✅ Loaded Teacher Credentials:", teacherCredentials);
     } catch (error) {
         console.error("❌ Error loading timetables:", error);
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadTimetables();
+});
 
 async function hashInput(input) {
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
