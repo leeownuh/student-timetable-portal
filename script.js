@@ -33,11 +33,19 @@ async function loginTeacher() {
     console.log("Hashed Username:", hashedInputUsername);
     console.log("Hashed Password:", hashedInputPassword);
 
+// Ensure teacherCredentials is loaded
+    if (!teacherCredentials || !teacherCredentials.username || !teacherCredentials.password) {
+        console.error("Teacher credentials are missing.");
+        timetableDiv.innerHTML = "<p class='error'>System error: Teacher credentials not found.</p>";
+        return;
+    }
+
     // Check if credentials match
-    if (hashedInputUsername === hashedUsername && hashedInputPassword === hashedPassword) {
+    if (hashedInputUsername === teacherCredentials.username && hashedInputPassword === teacherCredentials.password) {
+console.log("✅ Teacher login successful!");
         showAllTimetables(); // Show all timetables if login is successful
     } else {
-        timetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
+        timetableDiv.innerHTML = "<p class='error'>❌ Invalid login attempt.</p>";
     }
 }
 let timetables = {};
