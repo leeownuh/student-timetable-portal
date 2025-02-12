@@ -1,20 +1,24 @@
-// Hashed credentials (username: "teacher", password: "password123")
-const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // SHA-256 hash of "teacher"
-const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // SHA-256 hash of "password123"
+// Hashed credentials (Generated using sha256("teacher") and sha256("password123"))
+const hashedUsername = "4c3a907f1fd0144fa92d27f4d6233b4296a4c6d58aa299f3780ff7e5b1df3cc3"; // Correct SHA-256 hash of "teacher"
+const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // Correct SHA-256 hash of "password123"
+
 // Function to hash input
 function hashInput(input) {
-    return sha256(input);
+    return sha256(input); // Uses the external sha256 library
 }
 
 // Teacher login function
 function loginTeacher() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
-    const timetableDiv = document.getElementById("timetable");
+    const timetableDiv = document.getElementById("teacherTimetable");
 
     // Hash the input
     const hashedInputUsername = hashInput(username);
     const hashedInputPassword = hashInput(password);
+
+    console.log("Hashed Username:", hashedInputUsername);
+    console.log("Hashed Password:", hashedInputPassword);
 
     // Check if credentials match
     if (hashedInputUsername === hashedUsername && hashedInputPassword === hashedPassword) {
@@ -23,88 +27,57 @@ function loginTeacher() {
         timetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
     }
 }
+
 // Student codes and their respective timetables
 const timetables = {
     "12345": { name: "Zoe", schedule: [
-        ["Monday", "3:15 PM", "Maths"],
-        ["Monday", "4:00 PM", "Physics"],
-        ["Tuesday", "4:30 PM", "Maths"],
-        ["Wednesday", "3:15 PM", "Maths"],
-        ["Wednesday", "4:00 PM", "Biology"],
-        ["Thursday", "3:15 PM", "Maths"],
-        ["Thursday", "4:00 PM", "Biology"],
-        ["Friday", "3:30 PM", "Maths"]
+        ["Monday", "11:45 AM", "Maths"],
+        ["Monday", "12:30 PM", "Physics"],
+        ["Tuesday", "1:00 PM", "Maths"],
+        ["Wednesday", "11:45 AM", "Maths"],
+        ["Wednesday", "12:30 PM", "Biology"],
+        ["Thursday", "11:45 AM", "Maths"],
+        ["Thursday", "12:30 PM", "Biology"],
+        ["Friday", "11:45 AM", "Maths"]
     ]},
     "23456": { name: "Bongani", schedule: [
-        ["Monday", "8:15 PM", "Maths"],
-        ["Monday", "9:00 PM", "Chemistry"],
-        ["Wednesday", "8:15 PM", "Maths"],
-        ["Thursday", "8:15 PM", "Maths"],
-        ["Friday", "8:00 PM", "Maths"],
-        ["Friday", "8:45 PM", "Physics"],
-        ["Saturday", "6:45 PM", "Physics"],
-        ["Saturday", "7:30 PM", "Chemistry"]
+        ["Monday", "4:45 PM", "Maths"],
+        ["Monday", "5:30 PM", "Chemistry"],
+        ["Wednesday", "4:45 PM", "Maths"],
+        ["Thursday", "4:45 PM", "Maths"],
+        ["Friday", "4:30 PM", "Maths"],
+        ["Friday", "5:15 PM", "Physics"],
+        ["Saturday", "3:15 PM", "Physics"],
+        ["Saturday", "4:00 PM", "Chemistry"]
     ]},
     "34567": { name: "Blessing", schedule: [
-        ["Tuesday", "8:45 PM", "Life Sciences"],
-        ["Wednesday", "9:00 PM", "Life Sciences"],
-        ["Thursday", "9:45 PM", "Life Sciences"]
+        ["Tuesday", "5:15 PM", "Life Sciences"],
+        ["Wednesday", "5:30 PM", "Life Sciences"],
+        ["Thursday", "6:15 PM", "Life Sciences"]
     ]},
     "45678": { name: "Lily", schedule: [
-        ["Wednesday", "9:45 PM", "Maths"]
+        ["Wednesday", "6:15 PM", "Maths"]
     ]},
     "56789": { name: "Tsitsi", schedule: [
-        ["Tuesday", "10:15 PM", "Maths"],
-        ["Thursday", "9:00 PM", "Biology"],
-        ["Friday", "9:15 PM", "Chemistry"]
+        ["Tuesday", "6:45 PM", "Maths"],
+        ["Thursday", "6:00 PM", "Biology"],
+        ["Friday", "6:15 PM", "Chemistry"]
     ]},
     "67890": { name: "Makomborero", schedule: [
-        ["Monday", "9:45 PM", "Maths"],
-        ["Tuesday", "11:00 PM", "Maths"],
-        ["Wednesday", "10:30 PM", "Maths"],
-        ["Thursday", "10:30 PM", "Maths"],
-        ["Friday", "10:00 PM", "Maths"]
-    ]},
-    "78901": { name: "Lucindah", schedule: [
-        ["Monday", "9:45 PM", "Maths"],
-        ["Tuesday", "11:00 PM", "Maths"],
-        ["Wednesday", "10:30 PM", "Maths"],
-        ["Thursday", "10:30 PM", "Maths"],
-        ["Friday", "10:00 PM", "Maths"]
-    ]},
-    "89012": { name: "Sino", schedule: [
-        ["Monday", "9:45 PM", "Maths"],
-        ["Tuesday", "11:00 PM", "Maths"],
-        ["Wednesday", "10:30 PM", "Maths"],
-        ["Thursday", "10:30 PM", "Maths"],
-        ["Friday", "10:00 PM", "Maths"]
-    ]},
-    "90124": { name: "Tashalesa", schedule: [
-        ["Monday", "1:00 PM", "Maths"],
-        ["Tuesday", "1:45 PM", "Maths"],
-        ["Wednesday", "1:00 PM", "Maths"],
-        ["Thursday", "1:45 PM", "Maths"],
-        ["Friday", "1:00 PM", "Maths"],
-        ["Monday", "2:30 PM", "Combined Science"],
-        ["Wednesday", "2:30 PM", "Combined Science"],
-        ["Friday", "2:30 PM", "Combined Science"]
-    ]},
-    "90125": { name: "Zanele", schedule: [
-        ["Monday", "3:15 PM", "Maths"],
-        ["Tuesday", "4:30 PM", "Maths"],
-        ["Wednesday", "3:15 PM", "Maths"],
-        ["Thursday", "3:15 PM", "Maths"],
-        ["Friday", "3:30 PM", "Maths"],
-        ["Tuesday", "8:45 PM", "Combined Science"],
-        ["Thursday", "9:45 PM", "Combined Science"]
+        ["Monday", "6:15 PM", "Maths"],
+        ["Tuesday", "7:30 PM", "Maths"],
+        ["Wednesday", "7:00 PM", "Maths"],
+        ["Thursday", "7:00 PM", "Maths"],
+        ["Friday", "6:30 PM", "Maths"]
     ]}
 };
 
+// Function to display a student's timetable
 function showTimetable() {
     const code = document.getElementById("studentCode").value.trim();
-    const timetableDiv = document.getElementById("timetable");
+    const timetableDiv = document.getElementById("studentTimetable");
 
-    if (!code || code.length !== 5 || isNaN(code)) {
+    if (!/^\d{5}$/.test(code)) { // Ensures only 5-digit numeric codes
         timetableDiv.innerHTML = "<p class='error'>Please enter a valid 5-digit code.</p>";
         return;
     }
@@ -125,33 +98,14 @@ function showTimetable() {
     timetableDiv.innerHTML = html;
 }
 
+// Function to display the teacher's complete timetable
 function showAllTimetables() {
-    const timetableDiv = document.getElementById("timetable");
+    const timetableDiv = document.getElementById("teacherTimetable");
     let scheduleMap = {};
-    
+
     for (const code in timetables) {
         timetables[code].schedule.forEach(([day, time, subject]) => {
             if (!scheduleMap[time]) {
                 scheduleMap[time] = {};
             }
-            if (!scheduleMap[time][day]) {
-                scheduleMap[time][day] = [];
-            }
-            scheduleMap[time][day].push(`${subject} (${timetables[code].name})`);
-        });
-    }
-    
-    let html = "<h2>Teacher's Timetable</h2>";
-    html += `<table><tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>`;
-    
-    Object.keys(scheduleMap).sort().forEach(time => {
-        html += `<tr><td>${time}</td>`;
-        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].forEach(day => {
-            html += `<td>${scheduleMap[time][day] ? scheduleMap[time][day].join("<br>") : ""}</td>`;
-        });
-        html += "</tr>";
-    });
-    
-    html += "</table>";
-    timetableDiv.innerHTML = html;
-}
+         
