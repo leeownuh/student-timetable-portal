@@ -1,39 +1,51 @@
-let teacherCredentials = {};
+// Call the function when the page loads
+loadTimetables();
+loadCredentials();
+
 let teacherCredentials = {};
 let timetables = {};
 
-async function loadTimetables() {
+// Load teacher credentials from credentials.json
+async function loadCredentials() {
     try {
-        const response = await fetch("timetables.json");
-        
+        const response = await fetch("credentials.json");
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        console.log("✅ JSON Data Loaded:", data);
-
-        // Extract teacher credentials
-        teacherCredentials = data.teacherCredentials;
+        teacherCredentials = await response.json();
         console.log("✅ Loaded Teacher Credentials:", teacherCredentials);
+    } catch (error) {
+        console.error("❌ Error loading credentials:", error);
+    }
+}
 
-        // Remove credentials from main timetable object
-        delete data.teacherCredentials;
-        timetables = data; 
+// Load timetables from timetables.json
+async function loadTimetables() {
+    try {
+        const response = await fetch("timetables.json");
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        timetables = await response.json();
         console.log("✅ Timetables Loaded:", timetables);
-
     } catch (error) {
         console.error("❌ Error loading timetables:", error);
     }
 }
 
-// Ensure the timetable loads when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-    loadTimetables();
+// Ensure both credentials and timetables load on page load
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadCredentials();
+    await loadTimetables();
 });
 
+// Teacher login function
 async function loginTeacher() {
-    if (!teacherCredentials || !teacherCredentials.username || !teacherCredentials.password) {
+    if (!teacherCredentials.username || !teacherCredentials.password) {
         console.error("❌ Teacher credentials are missing or not loaded.");
         document.getElementById("teacherTimetable").innerHTML = "<p class='error'>System error: Teacher credentials not found.</p>";
         return;
@@ -60,19 +72,7 @@ async function loginTeacher() {
     }
 }
 
-// Load timetables from timetables.json
-async function loadTimetables() {
-    try {
-        const response = await fetch("timetables.json");
-        timetables = await response.json();
-        console.log("Timetables loaded:", timetables); // Debugging check
-    } catch (error) {
-        console.error("Error loading timetables:", error);
-    }
-}
 
-// Call the function when the page loads
-loadTimetables();
 // Student codes and their respective timetables
 function adjustTimeForStudents(time) {
     let [hour, minute, period] = time.match(/(\d+):(\d+) (\wM)/).slice(1);
