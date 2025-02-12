@@ -2,7 +2,6 @@
 const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // "teacher"
 const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // "password123"
 
-// Function to hash input (must be async)
 async function hashInput(input) {
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
     return Array.from(new Uint8Array(hashBuffer))
@@ -121,6 +120,10 @@ function adjustTimeForStudents(time) {
 
     return adjustedTime;
 }
+
+console.log("Entered Code:", document.getElementById("studentCode").value);
+console.log("Timetables Object:", timetables);
+console.log("Retrieved Student Data:", timetables[document.getElementById("studentCode").value]);
 
 // Function to show student timetable
 function showTimetable() {
