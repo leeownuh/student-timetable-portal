@@ -1,7 +1,3 @@
-// Call the function when the page loads
-loadTimetables();
-loadCredentials();
-
 let teacherCredentials = {};
 let timetables = {};
 
