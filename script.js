@@ -1,4 +1,7 @@
 let teacherCredentials = {};
+document.addEventListener("DOMContentLoaded", () => {
+    loadTimetables();
+});
 
 async function loadTimetables() {
     try {
@@ -7,8 +10,10 @@ async function loadTimetables() {
         teacherCredentials = data.teacherCredentials; // Store teacher credentials
         timetables = data; // Store timetables
         delete timetables.teacherCredentials; // Remove credentials from main timetable object
+    
+console.log("✅ Loaded Teacher Credentials:", teacherCredentials);
     } catch (error) {
-        console.error("Error loading timetables:", error);
+        console.error("❌ Error loading timetables:", error);
     }
 }
 
