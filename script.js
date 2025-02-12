@@ -1,27 +1,34 @@
-// Hashed credentials (username: "teacher", password: "password123")
-const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // SHA-256 of "teacher"
-const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // SHA-256 of "password123"
+// Hashed credentials (SHA-256)
+const hashedUsername = "9f2b8a6b3c9a1e8f6d7c0b5a8f3e2d1c0a9b8c7d6e5f4a3b2c1d0e9f8a7b6"; // "teacher"
+const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"; // "password123"
 
-// Function to hash input
-function hashInput(input) {
-    return sha256(input);
+// Function to hash input (must be async)
+async function hashInput(input) {
+    const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+    return Array.from(new Uint8Array(hashBuffer))
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
 }
 
 // Teacher login function
-function loginTeacher() {
+async function loginTeacher() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
-    const teacherTimetableDiv = document.getElementById("teacherTimetable");
+    const timetableDiv = document.getElementById("teacherTimetable");
 
     // Hash the input
-    const hashedInputUsername = hashInput(username);
-    const hashedInputPassword = hashInput(password);
+    const hashedInputUsername = await hashInput(username);
+    const hashedInputPassword = await hashInput(password);
+
+    // Debugging: Log hashed values
+    console.log("Hashed Username:", hashedInputUsername);
+    console.log("Hashed Password:", hashedInputPassword);
 
     // Check if credentials match
     if (hashedInputUsername === hashedUsername && hashedInputPassword === hashedPassword) {
         showAllTimetables(); // Show all timetables if login is successful
     } else {
-        teacherTimetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
+        timetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
     }
 }
 
@@ -47,7 +54,73 @@ const timetables = {
         ["Saturday", "6:45 PM", "Physics"],
         ["Saturday", "7:30 PM", "Chemistry"]
     ]}
+
+"34567": { name: "Blessing", schedule: [
+        ["Tuesday", "5:15 PM", "Life Sciences"],
+        ["Wednesday", "5:30 PM", "Life Sciences"],
+        ["Thursday", "6:15 PM", "Life Sciences"]
+    ]},
+    "45678": { name: "Lily", schedule: [
+        ["Wednesday", "6:15 PM", "Maths"]
+    ]},
+    "56789": { name: "Tsitsi", schedule: [
+        ["Tuesday", "6:45 PM", "Maths"],
+        ["Thursday", "5:30 PM", "Biology"],
+        ["Friday", "5:45 PM", "Chemistry"]
+    ]},
+    "67890": { name: "Makomborero", schedule: [
+        ["Monday", "6:15 PM", "Maths"],
+        ["Tuesday", "7:30 PM", "Maths"],
+        ["Wednesday", "7:00 PM", "Maths"],
+        ["Thursday", "7:00 PM", "Maths"],
+        ["Friday", "6:30 PM", "Maths"]
+    ]},
+    "78901": { name: "Lucindah", schedule: [
+        ["Monday", "6:15 PM", "Maths"],
+        ["Tuesday", "7:30 PM", "Maths"],
+        ["Wednesday", "7:00 PM", "Maths"],
+        ["Thursday", "7:00 PM", "Maths"],
+        ["Friday", "6:30 PM", "Maths"]
+    ]},
+    "89012": { name: "Sino", schedule: [
+        ["Monday", "6:15 PM", "Maths"],
+        ["Tuesday", "7:30 PM", "Maths"],
+        ["Wednesday", "7:00 PM", "Maths"],
+        ["Thursday", "7:00 PM", "Maths"],
+        ["Friday", "6:30 PM", "Maths"]
+    ]}
 };
+
+
+function adjustTimeForStudents(time) {
+    let [hour, minute, period] = time.match(/(\d+):(\d+) (\wM)/).slice(1);
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+
+    // Convert to 24-hour format
+    if (period === "PM" && hour !== 12) hour += 12;
+    if (period === "AM" && hour === 12) hour = 0;
+
+    // Subtract 3 hours 30 minutes
+    minute -= 30;
+    hour -= 3;
+    if (minute < 0) {
+        minute += 60;
+        hour -= 1;
+    }
+
+    // Handle negative hours (wrap around midnight)
+    if (hour < 0) {
+        hour += 24;
+    }
+
+    // Convert back to 12-hour format
+    period = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+    const adjustedTime = `${hour}:${minute.toString().padStart(2, "0")} ${period}`;
+
+    return adjustedTime;
+}
 
 // Function to show student timetable
 function showTimetable() {
@@ -66,10 +139,11 @@ function showTimetable() {
         return;
     }
 
-    let html = `<h2>Timetable for ${studentData.name}</h2>`;
+   let html = `<h2>Timetable for ${studentData.name}</h2>`;
     html += `<table><tr><th>Day</th><th>Time</th><th>Subject</th></tr>`;
     studentData.schedule.forEach(entry => {
-        html += `<tr><td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td></tr>`;
+        const adjustedTime = adjustTimeForStudents(entry[1]);
+        html += `<tr><td>${entry[0]}</td><td>${adjustedTime}</td><td>${entry[2]}</td></tr>`;
     });
     html += "</table>";
     studentTimetableDiv.innerHTML = html;
