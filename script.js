@@ -30,67 +30,22 @@ async function loginTeacher() {
         timetableDiv.innerHTML = "<p class='error'>Invalid username or password. Please try again.</p>";
     }
 }
+let timetables = {};
 
+// Load timetables from timetables.json
+async function loadTimetables() {
+    try {
+        const response = await fetch("timetables.json");
+        timetables = await response.json();
+        console.log("Timetables loaded:", timetables); // Debugging check
+    } catch (error) {
+        console.error("Error loading timetables:", error);
+    }
+}
+
+// Call the function when the page loads
+loadTimetables();
 // Student codes and their respective timetables
-const timetables = {
-    "12345": { name: "Zoe", schedule: [
-        ["Monday", "3:15 PM", "Maths"],
-        ["Monday", "4:00 PM", "Physics"],
-        ["Tuesday", "4:30 PM", "Maths"],
-        ["Wednesday", "3:15 PM", "Maths"],
-        ["Wednesday", "4:00 PM", "Biology"],
-        ["Thursday", "3:15 PM", "Maths"],
-        ["Thursday", "4:00 PM", "Biology"],
-        ["Friday", "3:30 PM", "Maths"]
-    ]},
-    "23456": { name: "Bongani", schedule: [
-        ["Monday", "8:15 PM", "Maths"],
-        ["Monday", "9:00 PM", "Chemistry"],
-        ["Wednesday", "8:15 PM", "Maths"],
-        ["Thursday", "8:15 PM", "Maths"],
-        ["Friday", "8:00 PM", "Maths"],
-        ["Friday", "8:45 PM", "Physics"],
-        ["Saturday", "6:45 PM", "Physics"],
-        ["Saturday", "7:30 PM", "Chemistry"]
-    ]},
-
-"34567": { name: "Blessing", schedule: [
-        ["Tuesday", "5:15 PM", "Life Sciences"],
-        ["Wednesday", "5:30 PM", "Life Sciences"],
-        ["Thursday", "6:15 PM", "Life Sciences"]
-    ]},
-    "45678": { name: "Lily", schedule: [
-        ["Wednesday", "6:15 PM", "Maths"]
-    ]},
-    "56789": { name: "Tsitsi", schedule: [
-        ["Tuesday", "6:45 PM", "Maths"],
-        ["Thursday", "5:30 PM", "Biology"],
-        ["Friday", "5:45 PM", "Chemistry"]
-    ]},
-    "67890": { name: "Makomborero", schedule: [
-        ["Monday", "6:15 PM", "Maths"],
-        ["Tuesday", "7:30 PM", "Maths"],
-        ["Wednesday", "7:00 PM", "Maths"],
-        ["Thursday", "7:00 PM", "Maths"],
-        ["Friday", "6:30 PM", "Maths"]
-    ]},
-    "78901": { name: "Lucindah", schedule: [
-        ["Monday", "6:15 PM", "Maths"],
-        ["Tuesday", "7:30 PM", "Maths"],
-        ["Wednesday", "7:00 PM", "Maths"],
-        ["Thursday", "7:00 PM", "Maths"],
-        ["Friday", "6:30 PM", "Maths"]
-    ]},
-    "89012": { name: "Sino", schedule: [
-        ["Monday", "6:15 PM", "Maths"],
-        ["Tuesday", "7:30 PM", "Maths"],
-        ["Wednesday", "7:00 PM", "Maths"],
-        ["Thursday", "7:00 PM", "Maths"],
-        ["Friday", "6:30 PM", "Maths"]
-    ]}
-};
-
-
 function adjustTimeForStudents(time) {
     let [hour, minute, period] = time.match(/(\d+):(\d+) (\wM)/).slice(1);
     hour = parseInt(hour);
