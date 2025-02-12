@@ -39,6 +39,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadTimetables();
 });
 
+// Function to hash input using SHA-256
+async function hashInput(input) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+}
+
 // Teacher login function
 async function loginTeacher() {
     if (!teacherCredentials.username || !teacherCredentials.password) {
