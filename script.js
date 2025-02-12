@@ -52,7 +52,7 @@ const timetables = {
         ["Friday", "8:45 PM", "Physics"],
         ["Saturday", "6:45 PM", "Physics"],
         ["Saturday", "7:30 PM", "Chemistry"]
-    ]}
+    ]},
 
 "34567": { name: "Blessing", schedule: [
         ["Tuesday", "5:15 PM", "Life Sciences"],
