@@ -139,24 +139,26 @@ function showTimetable() {
     html += "</table>";
     studentTimetableDiv.innerHTML = html;
 }
-
 // Function to show the teacher's complete timetable
 function showAllTimetables() {
     const teacherTimetableDiv = document.getElementById("teacherTimetable");
     let scheduleMap = {};
-    
+
     for (const code in timetables) {
         timetables[code].schedule.forEach(([day, time, subject]) => {
-            if (!scheduleMap[time]) {
-                scheduleMap[time] = {};
+            // For teacher timetable, use the original time without adjustment
+            const teacherTime = time; // No adjustment here, leave it as is
+            
+            if (!scheduleMap[teacherTime]) {
+                scheduleMap[teacherTime] = {};
             }
-            if (!scheduleMap[time][day]) {
-                scheduleMap[time][day] = [];
+            if (!scheduleMap[teacherTime][day]) {
+                scheduleMap[teacherTime][day] = [];
             }
-            scheduleMap[time][day].push(`${subject} (${timetables[code].name})`);
+            scheduleMap[teacherTime][day].push(`${subject} (${timetables[code].name})`);
         });
     }
-    
+
     let html = "<h2>Teacher's Timetable</h2>";
     html += `<table><tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>`;
     
