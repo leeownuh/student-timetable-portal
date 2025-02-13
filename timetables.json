@@ -67,6 +67,40 @@
       ["Friday", "6:30 PM", "Maths"]
     ]
   },
+
+   "90124": {
+        "name": "Tashalesa",
+        "schedule": [
+            ["Monday", "1:00 PM", "Maths"],
+            ["Tuesday", "1:45 PM", "Maths"],
+            ["Wednesday", "1:00 PM", "Maths"],
+            ["Thursday", "1:45 PM", "Maths"],
+            ["Friday", "1:00 PM", "Maths"],
+            ["Monday", "2:30 PM", "Combined Science"],
+            ["Wednesday", "2:30 PM", "Combined Science"],
+            ["Friday", "2:30 PM", "Combined Science"]
+        ]
+    },
+    "90130": {
+        "name": "New Student",
+        "schedule": [
+            ["Monday", "10:00 AM", "English"],
+            ["Wednesday", "11:30 AM", "History"],
+            ["Friday", "1:00 PM", "Geography"]
+        ]
+    },
+    "90125": {
+        "name": "Zanele",
+        "schedule": [
+            ["Monday", "3:15 PM", "Maths"],
+            ["Tuesday", "4:30 PM", "Maths"],
+            ["Wednesday", "3:15 PM", "Maths"],
+            ["Thursday", "3:15 PM", "Maths"],
+            ["Friday", "3:30 PM", "Maths"],
+            ["Tuesday", "8:45 PM", "Combined Science"],
+            ["Thursday", "9:45 PM", "Combined Science"]
+        ]
+    },
   "89012": { 
     "name": "Sino", 
     "schedule": [
